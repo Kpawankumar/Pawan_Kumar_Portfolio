@@ -46,6 +46,9 @@ function unhoverCard(el) {
 }
 
 function sendMsg() {
+  const submitBtn = document.getElementById("submit-btn");
+  const defaultLabel = "Send Message →";
+  const sendingLabel = "Sending...";
   const name = document.getElementById("fname").value.trim();
   const email = document.getElementById("femail").value.trim();
   const msg = document.getElementById("fmsg").value.trim();
@@ -65,6 +68,11 @@ function sendMsg() {
     return;
   }
 
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = sendingLabel;
+  }
+
   const params = {
     from_name: name,
     from_email: email,
@@ -76,6 +84,12 @@ function sendMsg() {
       alert("Message sent successfully!");
     }, function () {
       alert("Failed to send message. Try again.");
+    })
+    .finally(function () {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = defaultLabel;
+      }
     });
 }
 
